@@ -1,0 +1,88 @@
+<section id="contact" class="contact-section">
+  <div class="container">
+    <h2 class="section-title">{{ translations().contact.title }}</h2>
+    <p class="subtitle">{{ translations().contact.subtitle }}</p>
+    
+    <div class="contact-content">
+      <div class="contact-info">
+        <div class="info-item">
+          <div class="icon">📧</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:allansalahpro@gmail.com" class="contact-link">{{ email }}</a>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="icon">📱</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:+14389510038" class="contact-link">{{ phone }}</a>
+          </div>
+        </div>
+        <div class="info-item location-item" (click)="toggleLocation()">
+          <div class="icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p class="location-text">{{ currentLocation() }}</p>
+            <span class="location-hint">Click to switch</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>{{ translations().contact.name }}</label>
+          <input 
+            type="text" 
+            [(ngModel)]="formData.name" 
+            name="name"
+            required
+            placeholder="Your name"
+          >
+        </div>
+        <div class="form-group">
+          <label>{{ translations().contact.email }}</label>
+          <input 
+            type="email" 
+            [(ngModel)]="formData.email" 
+            name="email"
+            required
+            placeholder="your.email@example.com"
+          >
+        </div>
+        <div class="form-group">
+          <label>{{ translations().contact.message }}</label>
+          <textarea 
+            [(ngModel)]="formData.message" 
+            name="message"
+            required
+            rows="5"
+            placeholder="Your message..."
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="submitStatus() === 'sending'"
+        >
+          {{
+            submitStatus() === 'sending'
+              ? translations().contact.sending
+              : translations().contact.send
+          }}
+        </button>
+
+        @if (submitStatus() === 'success') {
+          <p class="form-status form-status--success">
+            {{ translations().contact.success }}
+          </p>
+        }
+        @if (submitStatus() === 'error') {
+          <p class="form-status form-status--error">
+            {{ translations().contact.error }}
+          </p>
+        }
+      </form>
+    </div>
+  </div>
+</section>

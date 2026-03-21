@@ -1,0 +1,27 @@
+<section id="home" class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">
+        <span class="greeting">{{ translations().hero.greeting }}</span>
+        <span class="name">{{ translations().hero.name }}</span>
+      </h1>
+      <p class="hero-description">
+        {{ translations().hero.description }}
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary" (click)="scrollToSection('projects')">
+          {{ translations().nav.projects }}
+        </button>
+        <button class="btn-secondary" (click)="scrollToSection('contact')">
+          {{ translations().nav.contact }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+    <p>Scroll Down</p>
+  </div>
+</section>

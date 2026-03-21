@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/three-scene/three-scene.component.scss"],
+  "sourcesContent": [".three-container {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: -1;\r\n  pointer-events: none;\r\n  overflow: hidden;\r\n\r\n  canvas {\r\n    display: block;\r\n    width: 100%;\r\n    height: 100%;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,YAAA;AACA,OAAA;AACA,QAAA;AACA,SAAA;AACA,UAAA;AACA,WAAA;AACA,kBAAA;AACA,YAAA;;AAEA,CAVF,gBAUE;AACE,WAAA;AACA,SAAA;AACA,UAAA;;",
+  "names": []
+}
