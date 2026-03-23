@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../services/translation.service';
+import { CvModalService } from '../../services/cv-modal.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +12,16 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class NavbarComponent {
   translationService = inject(TranslationService);
+  cvModalService = inject(CvModalService);
 
   translations = this.translationService.translations;
   currentLang = this.translationService.getCurrentLanguage();
   menuOpen = false;
+
+  openCv(): void {
+    this.menuOpen = false;
+    this.cvModalService.open();
+  }
 
   toggleLanguage(): void {
     this.translationService.toggleLanguage();

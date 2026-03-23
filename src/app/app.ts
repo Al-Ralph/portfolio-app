@@ -6,6 +6,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ExperienceComponent } from './components/experience/experience.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { CvModalComponent } from './components/cv-modal/cv-modal.component';
 import { LottieBackgroundComponent } from './components/lottie-background/lottie-background.component';
 import { ThreeSceneComponent } from './components/three-scene/three-scene.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -20,6 +21,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     ExperienceComponent,
     ProjectsComponent,
     ContactComponent,
+    CvModalComponent,
     LottieBackgroundComponent,
     ThreeSceneComponent,
     LoaderComponent

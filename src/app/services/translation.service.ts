@@ -74,6 +74,10 @@ export interface Translations {
     success: string;
     error: string;
   };
+  cv: {
+    download: string;
+    close: string;
+  };
 }
 
 const translations: Record<Language, Translations> = {
@@ -148,6 +152,10 @@ const translations: Record<Language, Translations> = {
       sending: 'Sending...',
       success: 'Message sent successfully!',
       error: 'Failed to send. Please try again or email me directly.'
+    },
+    cv: {
+      download: 'Download',
+      close: 'Close'
     }
   },
   fr: {
@@ -221,6 +229,10 @@ const translations: Record<Language, Translations> = {
       sending: 'Envoi en cours...',
       success: 'Message envoyé avec succès !',
       error: 'Échec de l\'envoi. Réessayez ou écrivez-moi directement par e-mail.'
+    },
+    cv: {
+      download: 'Télécharger',
+      close: 'Fermer'
     }
   }
 };

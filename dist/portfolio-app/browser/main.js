@@ -36695,6 +36695,10 @@ var translations = {
       sending: "Sending...",
       success: "Message sent successfully!",
       error: "Failed to send. Please try again or email me directly."
+    },
+    cv: {
+      download: "Download",
+      close: "Close"
     }
   },
   fr: {
@@ -36768,6 +36772,10 @@ var translations = {
       sending: "Envoi en cours...",
       success: "Message envoy\xE9 avec succ\xE8s !",
       error: "\xC9chec de l'envoi. R\xE9essayez ou \xE9crivez-moi directement par e-mail."
+    },
+    cv: {
+      download: "T\xE9l\xE9charger",
+      close: "Fermer"
     }
   }
 };
@@ -36803,12 +36811,40 @@ var TranslationService = class _TranslationService {
   }], () => [], null);
 })();
 
+// src/app/services/cv-modal.service.ts
+var CvModalService = class _CvModalService {
+  isOpen = signal(false, ...ngDevMode ? [{ debugName: "isOpen" }] : []);
+  open() {
+    this.isOpen.set(true);
+    document.body.style.overflow = "hidden";
+  }
+  close() {
+    this.isOpen.set(false);
+    document.body.style.overflow = "";
+  }
+  static \u0275fac = function CvModalService_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _CvModalService)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _CvModalService, factory: _CvModalService.\u0275fac, providedIn: "root" });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CvModalService, [{
+    type: Injectable,
+    args: [{ providedIn: "root" }]
+  }], null, null);
+})();
+
 // src/app/components/navbar/navbar.component.ts
 var NavbarComponent = class _NavbarComponent {
   translationService = inject2(TranslationService);
+  cvModalService = inject2(CvModalService);
   translations = this.translationService.translations;
   currentLang = this.translationService.getCurrentLanguage();
   menuOpen = false;
+  openCv() {
+    this.menuOpen = false;
+    this.cvModalService.open();
+  }
   toggleLanguage() {
     this.translationService.toggleLanguage();
     this.currentLang = this.translationService.getCurrentLanguage();
@@ -36826,7 +36862,7 @@ var NavbarComponent = class _NavbarComponent {
   static \u0275fac = function NavbarComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _NavbarComponent)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NavbarComponent, selectors: [["app-navbar"]], decls: 30, vars: 13, consts: [[1, "navbar"], [1, "nav-container"], [1, "logo", 3, "click"], ["aria-label", "Menu", 1, "hamburger", 3, "click"], [1, "nav-menu"], [3, "click"], ["href", "assets/Allan-Salah-Djimabi-FlowCV-Resume-20260205.pdf", "target", "_blank", 1, "cv-link", 3, "click"], [1, "lang-item"], [1, "lang-toggle", 3, "click"], [1, "lang-toggle", "desktop-lang", 3, "click"], [1, "nav-overlay", 3, "click"]], template: function NavbarComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NavbarComponent, selectors: [["app-navbar"]], decls: 30, vars: 13, consts: [[1, "navbar"], [1, "nav-container"], [1, "logo", 3, "click"], ["aria-label", "Menu", 1, "hamburger", 3, "click"], [1, "nav-menu"], [3, "click"], [1, "cv-link", 3, "click"], [1, "lang-item"], [1, "lang-toggle", 3, "click"], [1, "lang-toggle", "desktop-lang", 3, "click"], [1, "nav-overlay", 3, "click"]], template: function NavbarComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275domElementStart(0, "nav", 0)(1, "div", 1)(2, "div", 2);
       \u0275\u0275domListener("click", function NavbarComponent_Template_div_click_2_listener() {
@@ -36866,7 +36902,7 @@ var NavbarComponent = class _NavbarComponent {
       \u0275\u0275domElementEnd()();
       \u0275\u0275domElementStart(21, "li")(22, "a", 6);
       \u0275\u0275domListener("click", function NavbarComponent_Template_a_click_22_listener() {
-        return ctx.menuOpen = false;
+        return ctx.openCv();
       });
       \u0275\u0275text(23);
       \u0275\u0275domElementEnd()();
@@ -36933,7 +36969,7 @@ var NavbarComponent = class _NavbarComponent {
       <li><a (click)="scrollToSection('projects')">{{ translations().nav.projects }}</a></li>\r
       <li><a (click)="scrollToSection('contact')">{{ translations().nav.contact }}</a></li>\r
       <li>\r
-        <a href="assets/Allan-Salah-Djimabi-FlowCV-Resume-20260205.pdf" target="_blank" class="cv-link" (click)="menuOpen = false">\r
+        <a class="cv-link" (click)="openCv()">\r
           {{ translations().nav.cv }}\r
         </a>\r
       </li>\r
@@ -36955,7 +36991,7 @@ var NavbarComponent = class _NavbarComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NavbarComponent, { className: "NavbarComponent", filePath: "src/app/components/navbar/navbar.component.ts", lineNumber: 12 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NavbarComponent, { className: "NavbarComponent", filePath: "src/app/components/navbar/navbar.component.ts", lineNumber: 13 });
 })();
 
 // src/app/components/hero/hero.component.ts
@@ -44243,6 +44279,138 @@ var ContactComponent = class _ContactComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ContactComponent, { className: "ContactComponent", filePath: "src/app/components/contact/contact.component.ts", lineNumber: 13 });
 })();
 
+// src/app/components/cv-modal/cv-modal.component.ts
+function CvModalComponent_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275domElementStart(0, "div", 1);
+    \u0275\u0275domListener("click", function CvModalComponent_Conditional_0_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.cvModalService.close());
+    });
+    \u0275\u0275domElementStart(1, "div", 2);
+    \u0275\u0275domListener("click", function CvModalComponent_Conditional_0_Template_div_click_1_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      return \u0275\u0275resetView($event.stopPropagation());
+    });
+    \u0275\u0275domElementStart(2, "div", 3)(3, "span", 4);
+    \u0275\u0275text(4, "Curriculum Vitae");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(5, "div", 5)(6, "a", 6);
+    \u0275\u0275text(7);
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(8, "button", 7);
+    \u0275\u0275domListener("click", function CvModalComponent_Conditional_0_Template_button_click_8_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.cvModalService.close());
+    });
+    \u0275\u0275text(9, " \u2715 ");
+    \u0275\u0275domElementEnd()()();
+    \u0275\u0275domElementStart(10, "div", 8);
+    \u0275\u0275domElement(11, "iframe", 9);
+    \u0275\u0275domElementStart(12, "div", 10)(13, "p");
+    \u0275\u0275text(14, "Votre navigateur ne supporte pas l'aper\xE7u PDF.");
+    \u0275\u0275domElementEnd();
+    \u0275\u0275domElementStart(15, "a", 11);
+    \u0275\u0275text(16);
+    \u0275\u0275domElementEnd()()()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(6);
+    \u0275\u0275domProperty("href", ctx_r1.cvPath, \u0275\u0275sanitizeUrl);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" \u2B07 ", ctx_r1.translations().cv.download, " ");
+    \u0275\u0275advance();
+    \u0275\u0275attribute("aria-label", ctx_r1.translations().cv.close);
+    \u0275\u0275advance(3);
+    \u0275\u0275domProperty("src", ctx_r1.cvSafeUrl, \u0275\u0275sanitizeResourceUrl);
+    \u0275\u0275advance(4);
+    \u0275\u0275domProperty("href", ctx_r1.cvPath, \u0275\u0275sanitizeUrl);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" \u2B07 ", ctx_r1.translations().cv.download, " le PDF ");
+  }
+}
+var CvModalComponent = class _CvModalComponent {
+  cvModalService = inject2(CvModalService);
+  translationService = inject2(TranslationService);
+  sanitizer = inject2(DomSanitizer);
+  translations = this.translationService.translations;
+  cvPath = "assets/Allan-Salah-Djimabi-FlowCV-Resume-20260205.pdf";
+  cvSafeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.cvPath);
+  onEscape() {
+    this.cvModalService.close();
+  }
+  static \u0275fac = function CvModalComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _CvModalComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _CvModalComponent, selectors: [["app-cv-modal"]], hostBindings: function CvModalComponent_HostBindings(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275listener("keydown.escape", function CvModalComponent_keydown_escape_HostBindingHandler() {
+        return ctx.onEscape();
+      }, \u0275\u0275resolveDocument);
+    }
+  }, decls: 1, vars: 1, consts: [[1, "cv-modal-backdrop"], [1, "cv-modal-backdrop", 3, "click"], [1, "cv-modal-panel", 3, "click"], [1, "cv-modal-header"], [1, "cv-modal-title"], [1, "cv-modal-actions"], ["download", "", 1, "btn-download", 3, "href"], [1, "btn-close", 3, "click"], [1, "cv-modal-body"], ["title", "Curriculum Vitae", "type", "application/pdf", 3, "src"], [1, "cv-fallback"], ["download", "", 1, "btn-download-fallback", 3, "href"]], template: function CvModalComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275conditionalCreate(0, CvModalComponent_Conditional_0_Template, 17, 6, "div", 0);
+    }
+    if (rf & 2) {
+      \u0275\u0275conditional(ctx.cvModalService.isOpen() ? 0 : -1);
+    }
+  }, dependencies: [CommonModule], styles: ["\n\n.cv-modal-backdrop[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.75);\n  -webkit-backdrop-filter: blur(6px);\n  backdrop-filter: blur(6px);\n  z-index: 2000;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 1rem;\n  animation: _ngcontent-%COMP%_fadeIn 0.2s ease;\n}\n.cv-modal-panel[_ngcontent-%COMP%] {\n  background: #0f0f1e;\n  border: 1px solid rgba(102, 126, 234, 0.3);\n  border-radius: 16px;\n  width: 100%;\n  max-width: 900px;\n  height: 90dvh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  animation: _ngcontent-%COMP%_slideUp 0.25s ease;\n  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(102, 126, 234, 0.1);\n}\n.cv-modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem 1.5rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08);\n  flex-shrink: 0;\n}\n.cv-modal-header[_ngcontent-%COMP%]   .cv-modal-title[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.cv-modal-header[_ngcontent-%COMP%]   .cv-modal-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.cv-modal-header[_ngcontent-%COMP%]   .btn-download[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.4rem;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  color: white;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  border-radius: 20px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n.cv-modal-header[_ngcontent-%COMP%]   .btn-download[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);\n}\n.cv-modal-header[_ngcontent-%COMP%]   .btn-close[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  border: 1px solid rgba(255, 255, 255, 0.15);\n  color: rgba(255, 255, 255, 0.7);\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  font-size: 1rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: all 0.2s ease;\n}\n.cv-modal-header[_ngcontent-%COMP%]   .btn-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.15);\n  color: #fff;\n}\n.cv-modal-body[_ngcontent-%COMP%] {\n  flex: 1;\n  min-height: 0;\n  position: relative;\n}\n.cv-modal-body[_ngcontent-%COMP%]   iframe[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  border: none;\n  display: block;\n}\n.cv-modal-body[_ngcontent-%COMP%]   .cv-fallback[_ngcontent-%COMP%] {\n  display: none;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  gap: 1.5rem;\n  color: rgba(255, 255, 255, 0.7);\n}\n.cv-modal-body[_ngcontent-%COMP%]   .cv-fallback[_ngcontent-%COMP%]   .btn-download-fallback[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  color: white;\n  text-decoration: none;\n  padding: 0.75rem 1.5rem;\n  border-radius: 25px;\n  font-weight: 600;\n  font-size: 1rem;\n}\n@keyframes _ngcontent-%COMP%_fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes _ngcontent-%COMP%_slideUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px) scale(0.97);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n@media (max-width: 768px) {\n  .cv-modal-backdrop[_ngcontent-%COMP%] {\n    padding: 0;\n    align-items: flex-end;\n  }\n  .cv-modal-panel[_ngcontent-%COMP%] {\n    max-width: 100%;\n    height: 95dvh;\n    border-radius: 20px 20px 0 0;\n    animation: _ngcontent-%COMP%_slideUpMobile 0.3s ease;\n  }\n  .cv-modal-header[_ngcontent-%COMP%] {\n    padding: 0.85rem 1rem;\n  }\n  .cv-modal-header[_ngcontent-%COMP%]   .cv-modal-title[_ngcontent-%COMP%] {\n    font-size: 1rem;\n  }\n  .cv-modal-header[_ngcontent-%COMP%]   .btn-download[_ngcontent-%COMP%] {\n    padding: 0.45rem 0.85rem;\n    font-size: 0.85rem;\n  }\n}\n@keyframes _ngcontent-%COMP%_slideUpMobile {\n  from {\n    opacity: 0;\n    transform: translateY(100%);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n/*# sourceMappingURL=cv-modal.component.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CvModalComponent, [{
+    type: Component,
+    args: [{ selector: "app-cv-modal", standalone: true, imports: [CommonModule], template: `@if (cvModalService.isOpen()) {\r
+  <div class="cv-modal-backdrop" (click)="cvModalService.close()">\r
+    <div class="cv-modal-panel" (click)="$event.stopPropagation()">\r
+\r
+      <div class="cv-modal-header">\r
+        <span class="cv-modal-title">Curriculum Vitae</span>\r
+        <div class="cv-modal-actions">\r
+          <a\r
+            [href]="cvPath"\r
+            download\r
+            class="btn-download"\r
+          >\r
+            \u2B07 {{ translations().cv.download }}\r
+          </a>\r
+          <button class="btn-close" (click)="cvModalService.close()" [attr.aria-label]="translations().cv.close">\r
+            \u2715\r
+          </button>\r
+        </div>\r
+      </div>\r
+\r
+      <div class="cv-modal-body">\r
+        <iframe\r
+          [src]="cvSafeUrl"\r
+          title="Curriculum Vitae"\r
+          type="application/pdf"\r
+        ></iframe>\r
+        <div class="cv-fallback">\r
+          <p>Votre navigateur ne supporte pas l'aper\xE7u PDF.</p>\r
+          <a [href]="cvPath" download class="btn-download-fallback">\r
+            \u2B07 {{ translations().cv.download }} le PDF\r
+          </a>\r
+        </div>\r
+      </div>\r
+\r
+    </div>\r
+  </div>\r
+}\r
+`, styles: ["/* src/app/components/cv-modal/cv-modal.component.scss */\n.cv-modal-backdrop {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.75);\n  -webkit-backdrop-filter: blur(6px);\n  backdrop-filter: blur(6px);\n  z-index: 2000;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 1rem;\n  animation: fadeIn 0.2s ease;\n}\n.cv-modal-panel {\n  background: #0f0f1e;\n  border: 1px solid rgba(102, 126, 234, 0.3);\n  border-radius: 16px;\n  width: 100%;\n  max-width: 900px;\n  height: 90dvh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  animation: slideUp 0.25s ease;\n  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(102, 126, 234, 0.1);\n}\n.cv-modal-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem 1.5rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08);\n  flex-shrink: 0;\n}\n.cv-modal-header .cv-modal-title {\n  font-size: 1.1rem;\n  font-weight: 600;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.cv-modal-header .cv-modal-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.cv-modal-header .btn-download {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.4rem;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  color: white;\n  text-decoration: none;\n  padding: 0.5rem 1rem;\n  border-radius: 20px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n.cv-modal-header .btn-download:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);\n}\n.cv-modal-header .btn-close {\n  background: rgba(255, 255, 255, 0.08);\n  border: 1px solid rgba(255, 255, 255, 0.15);\n  color: rgba(255, 255, 255, 0.7);\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  font-size: 1rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: all 0.2s ease;\n}\n.cv-modal-header .btn-close:hover {\n  background: rgba(255, 255, 255, 0.15);\n  color: #fff;\n}\n.cv-modal-body {\n  flex: 1;\n  min-height: 0;\n  position: relative;\n}\n.cv-modal-body iframe {\n  width: 100%;\n  height: 100%;\n  border: none;\n  display: block;\n}\n.cv-modal-body .cv-fallback {\n  display: none;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  gap: 1.5rem;\n  color: rgba(255, 255, 255, 0.7);\n}\n.cv-modal-body .cv-fallback .btn-download-fallback {\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  color: white;\n  text-decoration: none;\n  padding: 0.75rem 1.5rem;\n  border-radius: 25px;\n  font-weight: 600;\n  font-size: 1rem;\n}\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n@keyframes slideUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px) scale(0.97);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n  }\n}\n@media (max-width: 768px) {\n  .cv-modal-backdrop {\n    padding: 0;\n    align-items: flex-end;\n  }\n  .cv-modal-panel {\n    max-width: 100%;\n    height: 95dvh;\n    border-radius: 20px 20px 0 0;\n    animation: slideUpMobile 0.3s ease;\n  }\n  .cv-modal-header {\n    padding: 0.85rem 1rem;\n  }\n  .cv-modal-header .cv-modal-title {\n    font-size: 1rem;\n  }\n  .cv-modal-header .btn-download {\n    padding: 0.45rem 0.85rem;\n    font-size: 0.85rem;\n  }\n}\n@keyframes slideUpMobile {\n  from {\n    opacity: 0;\n    transform: translateY(100%);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n/*# sourceMappingURL=cv-modal.component.css.map */\n"] }]
+  }], null, { onEscape: [{
+    type: HostListener,
+    args: ["document:keydown.escape"]
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(CvModalComponent, { className: "CvModalComponent", filePath: "src/app/components/cv-modal/cv-modal.component.ts", lineNumber: 14 });
+})();
+
 // src/app/components/lottie-background/lottie-background.component.ts
 var _c0 = ["lottieContainer"];
 var LottieBackgroundComponent = class _LottieBackgroundComponent {
@@ -44531,13 +44699,13 @@ var App = class _App {
   static \u0275fac = function App_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _App)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 11, vars: 0, template: function App_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _App, selectors: [["app-root"]], decls: 12, vars: 0, template: function App_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275element(0, "app-loader")(1, "app-lottie-background")(2, "app-three-scene")(3, "app-navbar");
       \u0275\u0275elementStart(4, "main");
       \u0275\u0275element(5, "app-hero")(6, "app-about")(7, "app-experience")(8, "app-projects")(9, "app-contact");
       \u0275\u0275elementEnd();
-      \u0275\u0275element(10, "router-outlet");
+      \u0275\u0275element(10, "app-cv-modal")(11, "router-outlet");
     }
   }, dependencies: [
     RouterOutlet,
@@ -44547,6 +44715,7 @@ var App = class _App {
     ExperienceComponent,
     ProjectsComponent,
     ContactComponent,
+    CvModalComponent,
     LottieBackgroundComponent,
     ThreeSceneComponent,
     LoaderComponent
@@ -44563,14 +44732,15 @@ var App = class _App {
       ExperienceComponent,
       ProjectsComponent,
       ContactComponent,
+      CvModalComponent,
       LottieBackgroundComponent,
       ThreeSceneComponent,
       LoaderComponent
-    ], template: "<app-loader></app-loader>\n<app-lottie-background></app-lottie-background>\n<app-three-scene></app-three-scene>\n<app-navbar></app-navbar>\n\n<main>\n  <app-hero></app-hero>\n  <app-about></app-about>\n  <app-experience></app-experience>\n  <app-projects></app-projects>\n  <app-contact></app-contact>\n</main>\n\n<router-outlet />\n", styles: ['/* src/app/app.scss */\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\nhtml {\n  scroll-behavior: smooth;\n}\nbody {\n  font-family:\n    "Inter",\n    -apple-system,\n    BlinkMacSystemFont,\n    "Segoe UI",\n    Roboto,\n    Oxygen,\n    Ubuntu,\n    Cantarell,\n    sans-serif;\n  background: #0a0a14;\n  color: #fff;\n  overflow-x: hidden;\n  line-height: 1.6;\n}\nmain {\n  position: relative;\n  z-index: 1;\n}\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 2rem;\n}\n.section-title {\n  font-size: 3.5rem;\n  font-weight: 700;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n::-webkit-scrollbar {\n  width: 10px;\n}\n::-webkit-scrollbar-track {\n  background: #0a0a14;\n}\n::-webkit-scrollbar-thumb {\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  border-radius: 5px;\n}\n::-webkit-scrollbar-thumb:hover {\n  background:\n    linear-gradient(\n      135deg,\n      #764ba2 0%,\n      #667eea 100%);\n}\n/*# sourceMappingURL=app.css.map */\n'] }]
+    ], template: "<app-loader></app-loader>\n<app-lottie-background></app-lottie-background>\n<app-three-scene></app-three-scene>\n<app-navbar></app-navbar>\n\n<main>\n  <app-hero></app-hero>\n  <app-about></app-about>\n  <app-experience></app-experience>\n  <app-projects></app-projects>\n  <app-contact></app-contact>\n</main>\n\n<app-cv-modal></app-cv-modal>\n<router-outlet />\n", styles: ['/* src/app/app.scss */\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\nhtml {\n  scroll-behavior: smooth;\n}\nbody {\n  font-family:\n    "Inter",\n    -apple-system,\n    BlinkMacSystemFont,\n    "Segoe UI",\n    Roboto,\n    Oxygen,\n    Ubuntu,\n    Cantarell,\n    sans-serif;\n  background: #0a0a14;\n  color: #fff;\n  overflow-x: hidden;\n  line-height: 1.6;\n}\nmain {\n  position: relative;\n  z-index: 1;\n}\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 2rem;\n}\n.section-title {\n  font-size: 3.5rem;\n  font-weight: 700;\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n::-webkit-scrollbar {\n  width: 10px;\n}\n::-webkit-scrollbar-track {\n  background: #0a0a14;\n}\n::-webkit-scrollbar-thumb {\n  background:\n    linear-gradient(\n      135deg,\n      #667eea 0%,\n      #764ba2 100%);\n  border-radius: 5px;\n}\n::-webkit-scrollbar-thumb:hover {\n  background:\n    linear-gradient(\n      135deg,\n      #764ba2 0%,\n      #667eea 100%);\n}\n/*# sourceMappingURL=app.css.map */\n'] }]
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 32 });
 })();
 
 // src/main.ts

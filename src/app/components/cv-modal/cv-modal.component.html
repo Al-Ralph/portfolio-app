@@ -1,0 +1,37 @@
+@if (cvModalService.isOpen()) {
+  <div class="cv-modal-backdrop" (click)="cvModalService.close()">
+    <div class="cv-modal-panel" (click)="$event.stopPropagation()">
+
+      <div class="cv-modal-header">
+        <span class="cv-modal-title">Curriculum Vitae</span>
+        <div class="cv-modal-actions">
+          <a
+            [href]="cvPath"
+            download
+            class="btn-download"
+          >
+            ⬇ {{ translations().cv.download }}
+          </a>
+          <button class="btn-close" (click)="cvModalService.close()" [attr.aria-label]="translations().cv.close">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <div class="cv-modal-body">
+        <iframe
+          [src]="cvSafeUrl"
+          title="Curriculum Vitae"
+          type="application/pdf"
+        ></iframe>
+        <div class="cv-fallback">
+          <p>Votre navigateur ne supporte pas l'aperçu PDF.</p>
+          <a [href]="cvPath" download class="btn-download-fallback">
+            ⬇ {{ translations().cv.download }} le PDF
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}
