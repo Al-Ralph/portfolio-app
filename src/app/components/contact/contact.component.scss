@@ -215,5 +215,36 @@
 @media (max-width: 968px) {
   .contact-section .contact-content {
     grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 5rem 1.25rem 3rem;
+
+    .section-title {
+      font-size: 2.4rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-info .info-item {
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .contact-form {
+      padding: 1.25rem;
+
+      input,
+      textarea {
+        font-size: 16px;
+      }
+    }
   }
 }

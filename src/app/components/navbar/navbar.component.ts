@@ -11,16 +11,22 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class NavbarComponent {
   translationService = inject(TranslationService);
-  
+
   translations = this.translationService.translations;
   currentLang = this.translationService.getCurrentLanguage();
+  menuOpen = false;
 
   toggleLanguage(): void {
     this.translationService.toggleLanguage();
     this.currentLang = this.translationService.getCurrentLanguage();
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
   scrollToSection(sectionId: string): void {
+    this.menuOpen = false;
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -118,15 +118,44 @@
 
 @media (max-width: 768px) {
   .experience-section {
+    padding: 5rem 1.25rem 3rem;
+
+    .section-title {
+      font-size: 2.4rem;
+      margin-bottom: 2.5rem;
+    }
+
     .timeline {
-      padding-left: 2rem;
+      padding-left: 1.75rem;
 
       &::before {
         left: 0;
       }
 
-      .timeline-item .timeline-marker {
-        left: -2.5rem;
+      .timeline-item {
+        margin-bottom: 2rem;
+
+        .timeline-marker {
+          left: -2.25rem;
+          width: 16px;
+          height: 16px;
+        }
+
+        .timeline-content {
+          padding: 1.25rem;
+
+          h3 {
+            font-size: 1.15rem;
+          }
+
+          h4 {
+            font-size: 1rem;
+          }
+
+          &:hover {
+            transform: none;
+          }
+        }
       }
     }
   }

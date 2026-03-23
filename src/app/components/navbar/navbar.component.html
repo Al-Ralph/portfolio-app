@@ -3,19 +3,34 @@
     <div class="logo" (click)="scrollToSection('home')">
       Portfolio
     </div>
-    <ul class="nav-menu">
+
+    <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-menu" [class.open]="menuOpen">
       <li><a (click)="scrollToSection('about')">{{ translations().nav.about }}</a></li>
       <li><a (click)="scrollToSection('experience')">{{ translations().nav.experience }}</a></li>
       <li><a (click)="scrollToSection('projects')">{{ translations().nav.projects }}</a></li>
       <li><a (click)="scrollToSection('contact')">{{ translations().nav.contact }}</a></li>
       <li>
-        <a href="assets/Allan-Salah-Djimabi-FlowCV-Resume-20260205.pdf" target="_blank" class="cv-link">
+        <a href="assets/Allan-Salah-Djimabi-FlowCV-Resume-20260205.pdf" target="_blank" class="cv-link" (click)="menuOpen = false">
           {{ translations().nav.cv }}
         </a>
       </li>
+      <li class="lang-item">
+        <button class="lang-toggle" (click)="toggleLanguage()">
+          {{ currentLang === 'en' ? 'FR' : 'EN' }}
+        </button>
+      </li>
     </ul>
-    <button class="lang-toggle" (click)="toggleLanguage()">
+
+    <button class="lang-toggle desktop-lang" (click)="toggleLanguage()">
       {{ currentLang === 'en' ? 'FR' : 'EN' }}
     </button>
   </div>
+
+  <div class="nav-overlay" [class.open]="menuOpen" (click)="toggleMenu()"></div>
 </nav>

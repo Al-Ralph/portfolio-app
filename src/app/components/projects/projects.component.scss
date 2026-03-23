@@ -134,7 +134,29 @@
 }
 
 @media (max-width: 768px) {
-  .projects-section .projects-grid {
-    grid-template-columns: 1fr;
+  .projects-section {
+    padding: 5rem 1.25rem 3rem;
+
+    .section-title {
+      font-size: 2.4rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .project-card:hover {
+      transform: none;
+    }
+
+    .project-card .project-image .overlay {
+      opacity: 1;
+
+      .view-btn {
+        transform: translateY(0);
+      }
+    }
   }
 }
