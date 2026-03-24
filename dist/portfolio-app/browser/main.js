@@ -883,12 +883,12 @@ function isSubscriber(value) {
 function hasLift(source) {
   return isFunction(source === null || source === void 0 ? void 0 : source.lift);
 }
-function operate(init) {
+function operate(init2) {
   return (source) => {
     if (hasLift(source)) {
       return source.lift(function(liftedSource) {
         try {
-          return init(liftedSource, this);
+          return init2(liftedSource, this);
         } catch (err) {
           this.error(err);
         }
@@ -1610,8 +1610,8 @@ function of(...args) {
 // node_modules/rxjs/dist/esm/internal/observable/throwError.js
 function throwError(errorOrErrorFactory, scheduler) {
   const errorFactory = isFunction(errorOrErrorFactory) ? errorOrErrorFactory : () => errorOrErrorFactory;
-  const init = (subscriber) => subscriber.error(errorFactory());
-  return new Observable(scheduler ? (subscriber) => scheduler.schedule(init, 0, subscriber) : init);
+  const init2 = (subscriber) => subscriber.error(errorFactory());
+  return new Observable(scheduler ? (subscriber) => scheduler.schedule(init2, 0, subscriber) : init2);
 }
 
 // node_modules/rxjs/dist/esm/internal/util/isObservable.js
@@ -4967,8 +4967,8 @@ var SIMPLE_CHANGES_STORE = "__ngSimpleChanges__";
 function getSimpleChangesStore(instance) {
   return instance[SIMPLE_CHANGES_STORE] || null;
 }
-function setSimpleChangesStore(instance, store2) {
-  return instance[SIMPLE_CHANGES_STORE] = store2;
+function setSimpleChangesStore(instance, store3) {
+  return instance[SIMPLE_CHANGES_STORE] = store3;
 }
 var profilerCallbacks = [];
 var NOOP_PROFILER_REMOVAL2 = () => {
@@ -6048,8 +6048,8 @@ var QueryList = class {
    * See
    * [Array.reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
    */
-  reduce(fn, init) {
-    return this._results.reduce(fn, init);
+  reduce(fn, init2) {
+    return this._results.reduce(fn, init2);
   }
   /**
    * See
@@ -23059,7 +23059,7 @@ function createOrReusePlatformInjector(providers = []) {
 function runPlatformInitializers(injector) {
   const inits = injector.get(PLATFORM_INITIALIZER, null);
   runInInjectionContext(injector, () => {
-    inits?.forEach((init) => init());
+    inits?.forEach((init2) => init2());
   });
 }
 var ChangeDetectorRef = class {
@@ -43971,6 +43971,248 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
   }], null, null);
 })();
 
+// node_modules/@emailjs/browser/es/models/EmailJSResponseStatus.js
+var EmailJSResponseStatus = class {
+  constructor(_status = 0, _text = "Network Error") {
+    this.status = _status;
+    this.text = _text;
+  }
+};
+
+// node_modules/@emailjs/browser/es/utils/createWebStorage/createWebStorage.js
+var createWebStorage = () => {
+  if (typeof localStorage === "undefined")
+    return;
+  return {
+    get: (key) => Promise.resolve(localStorage.getItem(key)),
+    set: (key, value) => Promise.resolve(localStorage.setItem(key, value)),
+    remove: (key) => Promise.resolve(localStorage.removeItem(key))
+  };
+};
+
+// node_modules/@emailjs/browser/es/store/store.js
+var store2 = {
+  origin: "https://api.emailjs.com",
+  blockHeadless: false,
+  storageProvider: createWebStorage()
+};
+
+// node_modules/@emailjs/browser/es/utils/buildOptions/buildOptions.js
+var buildOptions = (options) => {
+  if (!options)
+    return {};
+  if (typeof options === "string") {
+    return {
+      publicKey: options
+    };
+  }
+  if (options.toString() === "[object Object]") {
+    return options;
+  }
+  return {};
+};
+
+// node_modules/@emailjs/browser/es/methods/init/init.js
+var init = (options, origin = "https://api.emailjs.com") => {
+  if (!options)
+    return;
+  const opts = buildOptions(options);
+  store2.publicKey = opts.publicKey;
+  store2.blockHeadless = opts.blockHeadless;
+  store2.storageProvider = opts.storageProvider;
+  store2.blockList = opts.blockList;
+  store2.limitRate = opts.limitRate;
+  store2.origin = opts.origin || origin;
+};
+
+// node_modules/@emailjs/browser/es/api/sendPost.js
+var sendPost = (_0, _1, ..._2) => __async(null, [_0, _1, ..._2], function* (url, data, headers = {}) {
+  const response = yield fetch(store2.origin + url, {
+    method: "POST",
+    headers,
+    body: data
+  });
+  const message = yield response.text();
+  const responseStatus = new EmailJSResponseStatus(response.status, message);
+  if (response.ok) {
+    return responseStatus;
+  }
+  throw responseStatus;
+});
+
+// node_modules/@emailjs/browser/es/utils/validateParams/validateParams.js
+var validateParams = (publicKey, serviceID, templateID) => {
+  if (!publicKey || typeof publicKey !== "string") {
+    throw "The public key is required. Visit https://dashboard.emailjs.com/admin/account";
+  }
+  if (!serviceID || typeof serviceID !== "string") {
+    throw "The service ID is required. Visit https://dashboard.emailjs.com/admin";
+  }
+  if (!templateID || typeof templateID !== "string") {
+    throw "The template ID is required. Visit https://dashboard.emailjs.com/admin/templates";
+  }
+};
+
+// node_modules/@emailjs/browser/es/utils/validateTemplateParams/validateTemplateParams.js
+var validateTemplateParams = (templateParams) => {
+  if (templateParams && templateParams.toString() !== "[object Object]") {
+    throw "The template params have to be the object. Visit https://www.emailjs.com/docs/sdk/send/";
+  }
+};
+
+// node_modules/@emailjs/browser/es/utils/isHeadless/isHeadless.js
+var isHeadless = (navigator2) => {
+  return navigator2.webdriver || !navigator2.languages || navigator2.languages.length === 0;
+};
+
+// node_modules/@emailjs/browser/es/errors/headlessError/headlessError.js
+var headlessError = () => {
+  return new EmailJSResponseStatus(451, "Unavailable For Headless Browser");
+};
+
+// node_modules/@emailjs/browser/es/utils/validateBlockListParams/validateBlockListParams.js
+var validateBlockListParams = (list, watchVariable) => {
+  if (!Array.isArray(list)) {
+    throw "The BlockList list has to be an array";
+  }
+  if (typeof watchVariable !== "string") {
+    throw "The BlockList watchVariable has to be a string";
+  }
+};
+
+// node_modules/@emailjs/browser/es/utils/isBlockedValueInParams/isBlockedValueInParams.js
+var isBlockListDisabled = (options) => {
+  return !options.list?.length || !options.watchVariable;
+};
+var getValue = (data, name) => {
+  return data instanceof FormData ? data.get(name) : data[name];
+};
+var isBlockedValueInParams = (options, params) => {
+  if (isBlockListDisabled(options))
+    return false;
+  validateBlockListParams(options.list, options.watchVariable);
+  const value = getValue(params, options.watchVariable);
+  if (typeof value !== "string")
+    return false;
+  return options.list.includes(value);
+};
+
+// node_modules/@emailjs/browser/es/errors/blockedEmailError/blockedEmailError.js
+var blockedEmailError = () => {
+  return new EmailJSResponseStatus(403, "Forbidden");
+};
+
+// node_modules/@emailjs/browser/es/utils/validateLimitRateParams/validateLimitRateParams.js
+var validateLimitRateParams = (throttle, id) => {
+  if (typeof throttle !== "number" || throttle < 0) {
+    throw "The LimitRate throttle has to be a positive number";
+  }
+  if (id && typeof id !== "string") {
+    throw "The LimitRate ID has to be a non-empty string";
+  }
+};
+
+// node_modules/@emailjs/browser/es/utils/isLimitRateHit/isLimitRateHit.js
+var getLeftTime = (id, throttle, storage) => __async(null, null, function* () {
+  const lastTime = Number((yield storage.get(id)) || 0);
+  return throttle - Date.now() + lastTime;
+});
+var isLimitRateHit = (defaultID, options, storage) => __async(null, null, function* () {
+  if (!options.throttle || !storage) {
+    return false;
+  }
+  validateLimitRateParams(options.throttle, options.id);
+  const id = options.id || defaultID;
+  const leftTime = yield getLeftTime(id, options.throttle, storage);
+  if (leftTime > 0) {
+    return true;
+  }
+  yield storage.set(id, Date.now().toString());
+  return false;
+});
+
+// node_modules/@emailjs/browser/es/errors/limitRateError/limitRateError.js
+var limitRateError = () => {
+  return new EmailJSResponseStatus(429, "Too Many Requests");
+};
+
+// node_modules/@emailjs/browser/es/methods/send/send.js
+var send = (serviceID, templateID, templateParams, options) => __async(null, null, function* () {
+  const opts = buildOptions(options);
+  const publicKey = opts.publicKey || store2.publicKey;
+  const blockHeadless = opts.blockHeadless || store2.blockHeadless;
+  const storageProvider = opts.storageProvider || store2.storageProvider;
+  const blockList = __spreadValues(__spreadValues({}, store2.blockList), opts.blockList);
+  const limitRate = __spreadValues(__spreadValues({}, store2.limitRate), opts.limitRate);
+  if (blockHeadless && isHeadless(navigator)) {
+    return Promise.reject(headlessError());
+  }
+  validateParams(publicKey, serviceID, templateID);
+  validateTemplateParams(templateParams);
+  if (templateParams && isBlockedValueInParams(blockList, templateParams)) {
+    return Promise.reject(blockedEmailError());
+  }
+  if (yield isLimitRateHit(location.pathname, limitRate, storageProvider)) {
+    return Promise.reject(limitRateError());
+  }
+  const params = {
+    lib_version: "4.4.1",
+    user_id: publicKey,
+    service_id: serviceID,
+    template_id: templateID,
+    template_params: templateParams
+  };
+  return sendPost("/api/v1.0/email/send", JSON.stringify(params), {
+    "Content-type": "application/json"
+  });
+});
+
+// node_modules/@emailjs/browser/es/utils/validateForm/validateForm.js
+var validateForm = (form) => {
+  if (!form || form.nodeName !== "FORM") {
+    throw "The 3rd parameter is expected to be the HTML form element or the style selector of the form";
+  }
+};
+
+// node_modules/@emailjs/browser/es/methods/sendForm/sendForm.js
+var findHTMLForm = (form) => {
+  return typeof form === "string" ? document.querySelector(form) : form;
+};
+var sendForm = (serviceID, templateID, form, options) => __async(null, null, function* () {
+  const opts = buildOptions(options);
+  const publicKey = opts.publicKey || store2.publicKey;
+  const blockHeadless = opts.blockHeadless || store2.blockHeadless;
+  const storageProvider = store2.storageProvider || opts.storageProvider;
+  const blockList = __spreadValues(__spreadValues({}, store2.blockList), opts.blockList);
+  const limitRate = __spreadValues(__spreadValues({}, store2.limitRate), opts.limitRate);
+  if (blockHeadless && isHeadless(navigator)) {
+    return Promise.reject(headlessError());
+  }
+  const currentForm = findHTMLForm(form);
+  validateParams(publicKey, serviceID, templateID);
+  validateForm(currentForm);
+  const formData = new FormData(currentForm);
+  if (isBlockedValueInParams(blockList, formData)) {
+    return Promise.reject(blockedEmailError());
+  }
+  if (yield isLimitRateHit(location.pathname, limitRate, storageProvider)) {
+    return Promise.reject(limitRateError());
+  }
+  formData.append("lib_version", "4.4.1");
+  formData.append("service_id", serviceID);
+  formData.append("template_id", templateID);
+  formData.append("user_id", publicKey);
+  return sendPost("/api/v1.0/email/send-form", formData);
+});
+
+// node_modules/@emailjs/browser/es/index.js
+var es_default = {
+  init,
+  send,
+  sendForm,
+  EmailJSResponseStatus
+};
+
 // src/app/components/contact/contact.component.ts
 function ContactComponent_Conditional_49_Template(rf, ctx) {
   if (rf & 1) {
@@ -43996,11 +44238,12 @@ function ContactComponent_Conditional_50_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r0.translations().contact.error, " ");
   }
 }
+var EMAILJS_SERVICE_ID = "service_l6jpln4";
+var EMAILJS_TEMPLATE_ID = "template_deypzpl";
+var EMAILJS_PUBLIC_KEY = "DbMfd8Fw1TnmM5feg";
 var ContactComponent = class _ContactComponent {
   translationService = inject2(TranslationService);
   translations = this.translationService.translations;
-  /** Formulaire → livraison sur cette boîte (FormSubmit). */
-  formSubmitEndpoint = "https://formsubmit.co/ajax/allansalahpro@gmail.com";
   email = "allansalahpro@gmail.com";
   phone = "+1 (438) 951-0038";
   locations = [
@@ -44034,30 +44277,15 @@ var ContactComponent = class _ContactComponent {
       }
       this.submitStatus.set("sending");
       try {
-        const response = yield fetch(this.formSubmitEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          },
-          body: JSON.stringify({
-            name: this.formData.name,
-            email: this.formData.email,
-            message: this.formData.message,
-            _subject: `[Portfolio] Message de ${this.formData.name}`,
-            _captcha: "false"
-          })
-        });
-        const result = yield response.json();
-        const ok = response.ok && (result.success === true || result.success === "true");
-        if (ok) {
-          this.submitStatus.set("success");
-          this.formData = { name: "", email: "", message: "" };
-          setTimeout(() => this.submitStatus.set("idle"), 4e3);
-        } else {
-          this.submitStatus.set("error");
-          setTimeout(() => this.submitStatus.set("idle"), 5e3);
-        }
+        yield es_default.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          from_name: this.formData.name,
+          from_email: this.formData.email,
+          message: this.formData.message,
+          to_email: "allansalahpro@gmail.com"
+        }, { publicKey: EMAILJS_PUBLIC_KEY });
+        this.submitStatus.set("success");
+        this.formData = { name: "", email: "", message: "" };
+        setTimeout(() => this.submitStatus.set("idle"), 4e3);
       } catch {
         this.submitStatus.set("error");
         setTimeout(() => this.submitStatus.set("idle"), 5e3);
@@ -44276,7 +44504,7 @@ var ContactComponent = class _ContactComponent {
   }], () => [], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ContactComponent, { className: "ContactComponent", filePath: "src/app/components/contact/contact.component.ts", lineNumber: 13 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ContactComponent, { className: "ContactComponent", filePath: "src/app/components/contact/contact.component.ts", lineNumber: 18 });
 })();
 
 // src/app/components/cv-modal/cv-modal.component.ts

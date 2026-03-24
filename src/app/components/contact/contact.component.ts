@@ -1,7 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import emailjs from '@emailjs/browser';
 import { TranslationService } from '../../services/translation.service';
+
+const EMAILJS_SERVICE_ID  = 'service_l6jpln4';
+const EMAILJS_TEMPLATE_ID = 'template_deypzpl';
+const EMAILJS_PUBLIC_KEY  = 'DbMfd8Fw1TnmM5feg';
 
 @Component({
   selector: 'app-contact',
@@ -14,18 +19,14 @@ export class ContactComponent {
   translationService = inject(TranslationService);
   translations = this.translationService.translations;
 
-  /** Formulaire → livraison sur cette boîte (FormSubmit). */
-  private readonly formSubmitEndpoint =
-    'https://formsubmit.co/ajax/allansalahpro@gmail.com';
-
   email = 'allansalahpro@gmail.com';
   phone = '+1 (438) 951-0038';
-  
+
   locations = [
     'Ottawa, Ontario, Canada',
     'Montréal, Québec, Canada'
   ];
-  
+
   currentLocationIndex = signal(0);
   currentLocation = signal(this.locations[0]);
 
@@ -38,7 +39,6 @@ export class ContactComponent {
   submitStatus = signal<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   constructor() {
-    // Switch automatique entre les deux villes toutes les 3 secondes
     setInterval(() => {
       const nextIndex = (this.currentLocationIndex() + 1) % this.locations.length;
       this.currentLocationIndex.set(nextIndex);
@@ -60,34 +60,21 @@ export class ContactComponent {
     this.submitStatus.set('sending');
 
     try {
-      const response = await fetch(this.formSubmitEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name:    this.formData.name,
+          from_email:   this.formData.email,
+          message:      this.formData.message,
+          to_email:     'allansalahpro@gmail.com',
         },
-        body: JSON.stringify({
-          name: this.formData.name,
-          email: this.formData.email,
-          message: this.formData.message,
-          _subject: `[Portfolio] Message de ${this.formData.name}`,
-          _captcha: 'false',
-        }),
-      });
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
 
-      const result = await response.json();
-      const ok =
-        response.ok &&
-        (result.success === true || result.success === 'true');
-
-      if (ok) {
-        this.submitStatus.set('success');
-        this.formData = { name: '', email: '', message: '' };
-        setTimeout(() => this.submitStatus.set('idle'), 4000);
-      } else {
-        this.submitStatus.set('error');
-        setTimeout(() => this.submitStatus.set('idle'), 5000);
-      }
+      this.submitStatus.set('success');
+      this.formData = { name: '', email: '', message: '' };
+      setTimeout(() => this.submitStatus.set('idle'), 4000);
     } catch {
       this.submitStatus.set('error');
       setTimeout(() => this.submitStatus.set('idle'), 5000);
