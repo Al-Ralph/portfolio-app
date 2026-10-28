@@ -23,6 +23,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      text-decoration: none;
       cursor: pointer;
       transition: transform 0.3s ease;
       z-index: 1001;
@@ -34,14 +35,17 @@
 
     .nav-menu {
       display: flex;
+      align-items: center;
       list-style: none;
       gap: 2rem;
       margin: 0;
       padding: 0;
 
       li {
-        a {
+        a,
+        .cv-link {
           color: #fff;
+          font: inherit;
           text-decoration: none;
           font-weight: 500;
           cursor: pointer;
@@ -203,8 +207,9 @@
           text-align: center;
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
-          a {
-            display: block;
+          a,
+          .cv-link {
+            width: 100%;
             padding: 1rem 0;
             font-size: 1.1rem;
             min-height: 48px;

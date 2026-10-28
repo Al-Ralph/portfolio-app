@@ -2,19 +2,17 @@
   <div class="container">
     <h2 class="section-title">{{ translations().experience.title }}</h2>
     <div class="timeline">
-      @for (exp of experiences; track exp.key; let i = $index) {
-        @let expData = getExperience(exp.key);
-        <div class="timeline-item" [attr.data-index]="i">
+      @for (exp of translations().experience.items; track $index) {
+        <div class="timeline-item" appReveal>
           <div class="timeline-marker"></div>
           <div class="timeline-content">
-            <h3>{{ expData.title }}</h3>
-            <h4>{{ expData.company }}</h4>
-            <span class="period">{{ expData.period }}</span>
+            <h3>{{ exp.title }}</h3>
+            <h4>{{ exp.company }}</h4>
+            <span class="period">{{ exp.period }}</span>
             <ul>
-              <li>{{ expData.desc1 }}</li>
-              <li>{{ expData.desc2 }}</li>
-              <li>{{ expData.desc3 }}</li>
-              <li>{{ expData.desc4 }}</li>
+              @for (bullet of exp.bullets; track $index) {
+                <li>{{ bullet }}</li>
+              }
             </ul>
           </div>
         </div>

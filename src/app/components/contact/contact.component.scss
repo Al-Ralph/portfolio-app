@@ -35,9 +35,10 @@
   }
 
   .contact-info {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.25rem;
 
     .info-item {
       display: flex;
@@ -56,10 +57,13 @@
       }
 
       .icon {
-        font-size: 2rem;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        color: #8b9cf4;
       }
 
-      h4 {
+      h3 {
         color: #fff;
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
@@ -80,38 +84,11 @@
         }
       }
 
-      &.location-item {
-        cursor: pointer;
-        position: relative;
-
-        &:hover {
-          border-color: rgba(102, 126, 234, 0.5);
-        }
-
-        .location-text {
-          color: rgba(255, 255, 255, 0.9);
-          font-weight: 500;
-          display: inline-block;
-          animation: fadeLocation 0.5s ease-in-out;
-        }
-
-        .location-hint {
-          display: block;
-          font-size: 0.75rem;
-          color: rgba(102, 126, 234, 0.7);
-          margin-top: 0.25rem;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        &:hover .location-hint {
-          opacity: 1;
-        }
-      }
     }
   }
 
   .contact-form {
+    position: relative;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -139,8 +116,9 @@
         font-size: 1rem;
         transition: all 0.3s ease;
 
-        &:focus {
-          outline: none;
+        &:focus-visible {
+          outline: 2px solid #8b9cf4;
+          outline-offset: 2px;
           border-color: #667eea;
           background: rgba(255, 255, 255, 0.08);
         }
@@ -185,7 +163,17 @@
       }
     }
 
+    .form-honeypot {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     .form-status {
+      min-height: 1.5em;
       margin-top: 1rem;
       text-align: center;
       font-size: 0.95rem;
@@ -198,17 +186,6 @@
         color: #ff7675;
       }
     }
-  }
-}
-
-@keyframes fadeLocation {
-  0% {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 

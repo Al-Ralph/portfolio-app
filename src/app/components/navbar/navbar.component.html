@@ -1,36 +1,44 @@
 <nav class="navbar">
   <div class="nav-container">
-    <div class="logo" (click)="scrollToSection('home')">
-      Portfolio
-    </div>
+    <a href="#home" class="logo" [attr.aria-label]="translations().nav.home" (click)="closeMenu()">
+      Allan Salah-Djimabi
+    </a>
 
-    <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Menu">
+    <button
+      class="hamburger"
+      type="button"
+      [class.open]="menuOpen()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="nav-menu"
+      [attr.aria-label]="translations().nav.menu"
+      (click)="toggleMenu()"
+    >
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <ul class="nav-menu" [class.open]="menuOpen">
-      <li><a (click)="scrollToSection('about')">{{ translations().nav.about }}</a></li>
-      <li><a (click)="scrollToSection('experience')">{{ translations().nav.experience }}</a></li>
-      <li><a (click)="scrollToSection('projects')">{{ translations().nav.projects }}</a></li>
-      <li><a (click)="scrollToSection('contact')">{{ translations().nav.contact }}</a></li>
+    <ul id="nav-menu" class="nav-menu" [class.open]="menuOpen()">
+      <li><a href="#about" (click)="closeMenu()">{{ translations().nav.about }}</a></li>
+      <li><a href="#experience" (click)="closeMenu()">{{ translations().nav.experience }}</a></li>
+      <li><a href="#projects" (click)="closeMenu()">{{ translations().nav.projects }}</a></li>
+      <li><a href="#contact" (click)="closeMenu()">{{ translations().nav.contact }}</a></li>
       <li>
-        <a class="cv-link" (click)="openCv()">
+        <button type="button" class="cv-link" (click)="openCv()">
           {{ translations().nav.cv }}
-        </a>
+        </button>
       </li>
       <li class="lang-item">
-        <button class="lang-toggle" (click)="toggleLanguage()">
-          {{ currentLang === 'en' ? 'FR' : 'EN' }}
+        <button type="button" class="lang-toggle" [attr.aria-label]="translations().nav.switchLanguage" (click)="toggleLanguage()">
+          {{ language() === 'en' ? 'FR' : 'EN' }}
         </button>
       </li>
     </ul>
 
-    <button class="lang-toggle desktop-lang" (click)="toggleLanguage()">
-      {{ currentLang === 'en' ? 'FR' : 'EN' }}
+    <button type="button" class="lang-toggle desktop-lang" [attr.aria-label]="translations().nav.switchLanguage" (click)="toggleLanguage()">
+      {{ language() === 'en' ? 'FR' : 'EN' }}
     </button>
   </div>
 
-  <div class="nav-overlay" [class.open]="menuOpen" (click)="toggleMenu()"></div>
+  <div class="nav-overlay" [class.open]="menuOpen()" (click)="closeMenu()"></div>
 </nav>

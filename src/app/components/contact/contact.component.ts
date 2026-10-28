@@ -1,59 +1,43 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import emailjs from '@emailjs/browser';
 import { TranslationService } from '../../services/translation.service';
+import { PROFILE } from '../../shared/profile';
 
+// The public key is meant to be exposed; restrict allowed origins in the EmailJS dashboard.
+// The recipient address is set in the EmailJS template, not sent from the browser.
 const EMAILJS_SERVICE_ID  = 'service_l6jpln4';
 const EMAILJS_TEMPLATE_ID = 'template_deypzpl';
 const EMAILJS_PUBLIC_KEY  = 'DbMfd8Fw1TnmM5feg';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent {
-  translationService = inject(TranslationService);
-  translations = this.translationService.translations;
-
-  email = 'allansalahpro@gmail.com';
-  phone = '+1 (438) 951-0038';
-
-  locations = [
-    'Ottawa, Ontario, Canada',
-    'Montréal, Québec, Canada'
-  ];
-
-  currentLocationIndex = signal(0);
-  currentLocation = signal(this.locations[0]);
+export class ContactComponent implements OnDestroy {
+  translations = inject(TranslationService).translations;
+  readonly profile = PROFILE;
 
   formData = {
     name: '',
     email: '',
     message: ''
   };
+  honeypot = '';
 
   submitStatus = signal<'idle' | 'sending' | 'success' | 'error'>('idle');
-
-  constructor() {
-    setInterval(() => {
-      const nextIndex = (this.currentLocationIndex() + 1) % this.locations.length;
-      this.currentLocationIndex.set(nextIndex);
-      this.currentLocation.set(this.locations[nextIndex]);
-    }, 3000);
-  }
-
-  toggleLocation(): void {
-    const nextIndex = (this.currentLocationIndex() + 1) % this.locations.length;
-    this.currentLocationIndex.set(nextIndex);
-    this.currentLocation.set(this.locations[nextIndex]);
-  }
+  private resetTimer?: ReturnType<typeof setTimeout>;
 
   async onSubmit(): Promise<void> {
     if (this.submitStatus() === 'sending') {
+      return;
+    }
+
+    // A filled honeypot means a bot: pretend it worked and send nothing.
+    if (this.honeypot) {
+      this.finish('success', 4000);
       return;
     }
 
@@ -64,20 +48,27 @@ export class ContactComponent {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name:    this.formData.name,
-          from_email:   this.formData.email,
-          message:      this.formData.message,
-          to_email:     'allansalahpro@gmail.com',
+          from_name:  this.formData.name,
+          from_email: this.formData.email,
+          message:    this.formData.message
         },
         { publicKey: EMAILJS_PUBLIC_KEY }
       );
 
-      this.submitStatus.set('success');
       this.formData = { name: '', email: '', message: '' };
-      setTimeout(() => this.submitStatus.set('idle'), 4000);
+      this.finish('success', 4000);
     } catch {
-      this.submitStatus.set('error');
-      setTimeout(() => this.submitStatus.set('idle'), 5000);
+      this.finish('error', 5000);
     }
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.resetTimer);
+  }
+
+  private finish(status: 'success' | 'error', resetAfterMs: number): void {
+    this.submitStatus.set(status);
+    clearTimeout(this.resetTimer);
+    this.resetTimer = setTimeout(() => this.submitStatus.set('idle'), resetAfterMs);
   }
 }

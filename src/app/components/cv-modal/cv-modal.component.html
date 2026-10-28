@@ -1,33 +1,40 @@
 @if (cvModalService.isOpen()) {
   <div class="cv-modal-backdrop" (click)="cvModalService.close()">
-    <div class="cv-modal-panel" (click)="$event.stopPropagation()">
+    <div
+      #panel
+      class="cv-modal-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cv-modal-title"
+      (click)="$event.stopPropagation()"
+      (keydown.tab)="trapFocus($event)"
+      (keydown.shift.tab)="trapFocus($event)"
+    >
 
       <div class="cv-modal-header">
-        <span class="cv-modal-title">Curriculum Vitae</span>
+        <h2 id="cv-modal-title" class="cv-modal-title">{{ translations().cv.title }}</h2>
         <div class="cv-modal-actions">
-          <a
-            [href]="cvPath"
-            download
-            class="btn-download"
-          >
-            ⬇ {{ translations().cv.download }}
+          <a [href]="cvPath" download class="btn-download">
+            <span aria-hidden="true">⬇</span> {{ translations().cv.download }}
           </a>
-          <button class="btn-close" (click)="cvModalService.close()" [attr.aria-label]="translations().cv.close">
-            ✕
+          <button
+            #closeButton
+            type="button"
+            class="btn-close"
+            (click)="cvModalService.close()"
+            [attr.aria-label]="translations().cv.close"
+          >
+            <span aria-hidden="true">✕</span>
           </button>
         </div>
       </div>
 
       <div class="cv-modal-body">
-        <iframe
-          [src]="cvSafeUrl"
-          title="Curriculum Vitae"
-          type="application/pdf"
-        ></iframe>
+        <iframe [src]="cvSafeUrl" [title]="translations().cv.title"></iframe>
         <div class="cv-fallback">
-          <p>Votre navigateur ne supporte pas l'aperçu PDF.</p>
+          <p>{{ translations().cv.fallback }}</p>
           <a [href]="cvPath" download class="btn-download-fallback">
-            ⬇ {{ translations().cv.download }} le PDF
+            <span aria-hidden="true">⬇</span> {{ translations().cv.downloadPdf }}
           </a>
         </div>
       </div>

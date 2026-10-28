@@ -1,50 +1,41 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslationService } from '../../services/translation.service';
+import { ProjectId, TranslationService } from '../../services/translation.service';
+import { RevealDirective } from '../../shared/reveal.directive';
 
 interface Project {
-  titleKey: string;
-  descriptionKey: string;
+  id: ProjectId;
   technologies: string[];
   image: string;
+  imageWidth: number;
+  imageHeight: number;
   link: string;
 }
 
 @Component({
   selector: 'app-projects',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [RevealDirective],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
-  translationService = inject(TranslationService);
-  translations = this.translationService.translations;
+  translations = inject(TranslationService).translations;
 
   projects: Project[] = [
     {
-      titleKey: 'smartlearn',
-      descriptionKey: 'smartlearn',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Python', 'AI/ML'],
-      image: 'assets/SmartLearn Platform.png',
-      link: '#'
+      id: 'smartlearn',
+      technologies: ['React', 'React Native', 'Node.js', 'Python', 'PostgreSQL', 'MongoDB'],
+      image: 'assets/smartlearn.webp',
+      imageWidth: 1200,
+      imageHeight: 501,
+      link: 'https://github.com/Al-Ralph/Stage-projet'
     },
     {
-      titleKey: 'afrikaplace',
-      descriptionKey: 'afrikaplace',
-      technologies: ['Angular', 'Firebase', 'TypeScript', 'Stripe'],
-      image: 'assets/AfriKaPlace.png',
-      link: '#'
+      id: 'afrikaplace',
+      technologies: ['React', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'Docker'],
+      image: 'assets/afrikaplace.webp',
+      imageWidth: 1200,
+      imageHeight: 572,
+      link: 'https://github.com/Al-Ralph/afrikabnb'
     }
   ];
-
-  getProjectTitle(key: string): string {
-    const proj = this.translations().projects as any;
-    return proj[key]?.title || key;
-  }
-
-  getProjectDescription(key: string): string {
-    const proj = this.translations().projects as any;
-    return proj[key]?.description || '';
-  }
 }

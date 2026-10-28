@@ -1,5 +1,4 @@
-/* Global Styles */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Global Styles — the Inter font is loaded from index.html */
 
 * {
   margin: 0;
@@ -26,6 +25,30 @@ body {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Anchored sections land below the fixed navbar */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid #8b9cf4;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 // Scrollbar styling

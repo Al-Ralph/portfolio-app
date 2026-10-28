@@ -1,12 +1,12 @@
-@if (isLoading) {
-  <div class="loader-container">
+@if (isLoading()) {
+  <div class="loader-container" [class.leaving]="isLeaving()" role="status" aria-label="Loading">
     <div class="loader-content">
-      <div class="loader-spinner">
+      <div class="loader-spinner" aria-hidden="true">
         <div class="spinner-ring"></div>
         <div class="spinner-ring"></div>
         <div class="spinner-ring"></div>
       </div>
-      <h2 class="loader-text">SALAH-DJIMABI Allan</h2>
+      <p class="loader-text">Allan Salah-Djimabi</p>
       <p class="loader-subtitle">Portfolio</p>
     </div>
   </div>
