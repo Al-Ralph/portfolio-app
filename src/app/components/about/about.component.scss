@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   padding: 8rem 2rem 4rem;
-  background: linear-gradient(180deg, #0a0a14 0%, #1a1a2e 100%);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
   position: relative;
   overflow: hidden;
 
@@ -26,7 +26,7 @@
     .section-title {
       font-size: 3.5rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -35,7 +35,7 @@
 
     .subtitle {
       font-size: 1.5rem;
-      color: #fff;
+      color: var(--text);
       margin-bottom: 1.5rem;
       font-weight: 400;
     }
@@ -55,7 +55,7 @@
 
         .specializations-title {
           font-size: 1.3rem;
-          color: #fff;
+          color: var(--text);
           margin-bottom: 1rem;
           font-weight: 600;
         }
@@ -77,7 +77,7 @@
               content: '•';
               position: absolute;
               left: 0;
-              color: #667eea;
+              color: var(--accent);
               font-size: 1.5rem;
               line-height: 1.2;
             }
@@ -106,7 +106,7 @@
   .skills-section {
     h4 {
       font-size: 1.5rem;
-      color: #fff;
+      color: var(--text);
       margin-bottom: 1.5rem;
     }
 
@@ -117,20 +117,20 @@
       gap: 1rem;
 
       .skill-item {
-        background: rgba(102, 126, 234, 0.1);
-        border: 1px solid rgba(102, 126, 234, 0.3);
+        background: rgba(45, 212, 191, 0.08);
+        border: 1px solid rgba(45, 212, 191, 0.3);
         padding: 0.75rem 1rem;
         border-radius: 8px;
-        color: #fff;
+        color: var(--text);
         text-align: center;
         font-weight: 500;
         transition: all 0.3s ease;
         cursor: default;
 
         &:hover {
-          background: rgba(102, 126, 234, 0.2);
+          background: rgba(245, 158, 11, 0.2);
           transform: translateY(-3px);
-          box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
         }
       }
     }
@@ -155,7 +155,7 @@
         height: auto;
         object-fit: contain;
         border-radius: 20px;
-        filter: drop-shadow(0 20px 40px rgba(102, 126, 234, 0.4));
+        filter: drop-shadow(0 20px 40px rgba(245, 158, 11, 0.4));
         animation: subtleRotate 12s ease-in-out infinite;
         position: relative;
         z-index: 2;

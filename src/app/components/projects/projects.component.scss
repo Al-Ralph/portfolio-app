@@ -1,7 +1,7 @@
 .projects-section {
   min-height: 100vh;
   padding: 8rem 2rem 4rem;
-  background: linear-gradient(180deg, #16213e 0%, #0a0a14 100%);
+  background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
   position: relative;
 
   .container {
@@ -13,7 +13,7 @@
     font-size: 3.5rem;
     font-weight: 700;
     text-align: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -43,8 +43,8 @@
 
     &:hover {
       transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
-      border-color: rgba(102, 126, 234, 0.5);
+      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
+      border-color: rgba(245, 158, 11, 0.5);
     }
 
     .project-image {
@@ -66,7 +66,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(102, 126, 234, 0.9);
+        background: rgba(11, 15, 23, 0.82);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -74,8 +74,8 @@
         transition: opacity 0.3s ease;
 
         .view-btn {
-          background: white;
-          color: #667eea;
+          background: var(--accent);
+          color: var(--on-accent);
           padding: 0.75rem 1.5rem;
           border-radius: 25px;
           text-decoration: none;
@@ -106,7 +106,7 @@
 
       h3 {
         font-size: 1.5rem;
-        color: #fff;
+        color: var(--text);
         margin-bottom: 0.5rem;
       }
 
@@ -123,12 +123,12 @@
         gap: 0.5rem;
 
         .tech-tag {
-          background: rgba(102, 126, 234, 0.2);
-          color: #667eea;
+          background: rgba(45, 212, 191, 0.1);
+          color: var(--accent-2);
           padding: 0.25rem 0.75rem;
           border-radius: 12px;
           font-size: 0.85rem;
-          border: 1px solid rgba(102, 126, 234, 0.3);
+          border: 1px solid rgba(45, 212, 191, 0.3);
         }
       }
     }
@@ -139,7 +139,7 @@
 @media (hover: none) {
   .projects-section .project-card .project-image .overlay {
     opacity: 1;
-    background: linear-gradient(180deg, transparent 50%, rgba(10, 10, 20, 0.8) 100%);
+    background: linear-gradient(180deg, transparent 50%, rgba(11, 15, 23, 0.8) 100%);
     align-items: flex-end;
     padding-bottom: 1rem;
 

@@ -1,7 +1,7 @@
 .contact-section {
   min-height: 100vh;
   padding: 8rem 2rem 4rem;
-  background: linear-gradient(180deg, #0a0a14 0%, #1a1a2e 100%);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
   position: relative;
 
   .container {
@@ -13,7 +13,7 @@
     font-size: 3.5rem;
     font-weight: 700;
     text-align: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -60,11 +60,11 @@
         flex-shrink: 0;
         width: 28px;
         height: 28px;
-        color: #8b9cf4;
+        color: var(--accent-2);
       }
 
       h3 {
-        color: #fff;
+        color: var(--text);
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
       }
@@ -80,7 +80,7 @@
         transition: color 0.3s ease;
 
         &:hover {
-          color: #667eea;
+          color: var(--accent);
         }
       }
 
@@ -100,7 +100,7 @@
 
       label {
         display: block;
-        color: #fff;
+        color: var(--text);
         margin-bottom: 0.5rem;
         font-weight: 500;
       }
@@ -112,14 +112,14 @@
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 8px;
-        color: #fff;
+        color: var(--text);
         font-size: 1rem;
         transition: all 0.3s ease;
 
         &:focus-visible {
-          outline: 2px solid #8b9cf4;
+          outline: 2px solid var(--accent-2);
           outline-offset: 2px;
-          border-color: #667eea;
+          border-color: var(--accent);
           background: rgba(255, 255, 255, 0.08);
         }
 
@@ -137,10 +137,10 @@
     .submit-btn {
       width: 100%;
       padding: 1rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--accent-gradient);
       border: none;
       border-radius: 8px;
-      color: white;
+      color: var(--on-accent);
       font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
@@ -148,7 +148,7 @@
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
       }
 
       &:active {
@@ -179,11 +179,11 @@
       font-size: 0.95rem;
 
       &--success {
-        color: #7bed9f;
+        color: var(--accent-2);
       }
 
       &--error {
-        color: #ff7675;
+        color: #f87171;
       }
     }
   }

@@ -97,10 +97,10 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
     this.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
     this.material = new THREE.PointsMaterial({
-      color: 0x667eea,
+      color: 0x2dd4bf,
       size: 2,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.45
     });
 
     this.particles = new THREE.Points(this.geometry, this.material);

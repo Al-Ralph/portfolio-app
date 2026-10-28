@@ -6,7 +6,7 @@
   align-items: center;
   padding: 8rem 2rem 4rem;
   background: 
-    linear-gradient(180deg, rgba(10, 10, 20, 0.6) 0%, rgba(26, 26, 46, 0.7) 100%),
+    linear-gradient(180deg, rgba(11, 15, 23, 0.6) 0%, rgba(20, 26, 38, 0.7) 100%),
     url('/assets/background.webp');
   background-size: cover;
   background-position: center;
@@ -36,7 +36,7 @@
 
       .greeting {
         font-size: 1.5rem;
-        color: #667eea;
+        color: var(--accent);
         margin-bottom: 0.5rem;
         font-weight: 500;
       }
@@ -44,7 +44,7 @@
       .name {
         font-size: 4.5rem;
         font-weight: 700;
-        color: #fff;
+        color: var(--text);
         line-height: 1.1;
         margin-bottom: 1rem;
         letter-spacing: -0.02em;
@@ -83,18 +83,18 @@
         border: none;
 
         &.btn-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
+          background: var(--accent-gradient);
+          color: var(--on-accent);
 
           &:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
           }
         }
 
         &.btn-secondary {
           background: transparent;
-          color: white;
+          color: var(--text);
           border: 2px solid rgba(255, 255, 255, 0.3);
 
           &:hover {
@@ -125,7 +125,7 @@
       transition: color 0.3s ease;
 
       &:hover {
-        color: #fff;
+        color: var(--text);
       }
 
       svg {
